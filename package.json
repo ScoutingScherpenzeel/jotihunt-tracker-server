@@ -4,7 +4,10 @@
     "axios": "^1.7.2",
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
-    "mongoose": "^8.4.1"
+    "express-winston": "^4.2.0",
+    "mongoose": "^8.4.1",
+    "node-cron": "^3.0.3",
+    "winston": "^3.13.0"
   },
   "name": "jotihunt-tracker-server",
   "version": "1.0.0",

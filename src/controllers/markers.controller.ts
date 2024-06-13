@@ -1,4 +1,5 @@
-import { Marker } from "../models/marker";
+import { logger } from "..";
+import { Marker } from "../models/marker.model";
 
 export async function getMarkers(req, res) {
   const markers = await Marker.find();
