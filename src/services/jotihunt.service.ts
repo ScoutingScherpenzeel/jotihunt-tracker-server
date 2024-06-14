@@ -1,4 +1,5 @@
 import axios from "axios";
+import { logger } from "..";
 
 const apiUrl = process.env.JOTIHUNT_API_URL;
 
@@ -34,7 +35,7 @@ export async function getTeams(): Promise<ApiTeam[]> {
     const response = await apiClient.get("/subscriptions");
     return response.data.data as ApiTeam[];
   } catch (error) {
-    console.error("Error fetching teams:", error);
+    logger.error("Error fetching teams:", error);
     throw new Error("Could not fetch teams");
   }
 }
@@ -48,7 +49,7 @@ export async function getAreas(): Promise<ApiArea[]> {
     const response = await apiClient.get("/areas");
     return response.data.data as ApiArea[];
   } catch (error) {
-    console.error("Error fetching areas:", error);
+    logger.error("Error fetching areas:", error);
     throw new Error("Could not fetch areas");
   }
 }

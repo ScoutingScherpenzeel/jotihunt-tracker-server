@@ -1,7 +1,7 @@
-const express = require("express");
-const router = express.Router();
+import express from "express";
+import * as trackerController from "../controllers/tracker.controller";
 
-const trackerController = require("../controllers/tracker.controller");
+const router = express.Router();
 
 router.get("/devices", trackerController.getDevices);
 router.get("/positions", trackerController.getPositions);

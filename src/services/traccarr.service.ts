@@ -1,4 +1,5 @@
 import axios from "axios";
+import { logger } from "..";
 
 const apiUrl = process.env.TRACCARR_API_URL;
 const apiToken = process.env.TRACCARR_API_TOKEN;
@@ -19,7 +20,7 @@ export async function getDevices() {
     const response = await apiClient.get("/api/devices");
     return response.data;
   } catch (error) {
-    console.error("Error fetching devices:", error);
+    logger.error("Error fetching devices:", error);
     throw new Error("Could not fetch devices");
   }
 }
@@ -43,7 +44,7 @@ export async function getPositions() {
 
     return positionsWithDeviceNames;
   } catch (error) {
-    console.error("Error fetching positions:", error);
+    logger.error("Error fetching positions:", error);
     throw new Error("Could not fetch positions");
   }
 }

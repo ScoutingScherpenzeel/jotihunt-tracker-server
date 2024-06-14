@@ -1,7 +1,7 @@
 import express from "express";
-const router = express.Router();
+import * as markersController from "../controllers/markers.controller";
 
-const markersController = require("../controllers/markers.controller");
+const router = express.Router();
 
 router.get("/", markersController.getMarkers);
 router.post("/", markersController.createMarker);

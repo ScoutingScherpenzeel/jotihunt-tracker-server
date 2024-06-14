@@ -1,4 +1,4 @@
-const traccarrService = require("../services/traccarr.service");
+import * as traccarrService from '../services/traccarr.service';
 
 async function getDevices(req, res) {
   try {

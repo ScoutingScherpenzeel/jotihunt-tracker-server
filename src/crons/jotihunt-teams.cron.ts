@@ -23,6 +23,8 @@ export default async function retrieveJotihuntTeams() {
         };
     });
 
+    logger.info(`(CRON) Found ${teams.length} teams`);
+
     await Team.deleteMany({});
     await Team.insertMany(teams);
         

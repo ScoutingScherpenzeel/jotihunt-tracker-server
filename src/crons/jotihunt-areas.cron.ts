@@ -3,6 +3,7 @@ import { Area } from "../models/area.model";
 import { getAreas } from "../services/jotihunt.service";
 
 export default async function retrieveJotihuntAreas() {
+    
     logger.info("(CRON) Retrieving Jotihunt areas from API...");
 
     const apiAreas = await getAreas();
@@ -15,6 +16,9 @@ export default async function retrieveJotihuntAreas() {
         };
     });
 
+    logger.info(`(CRON) Found ${areas.length} areas`);
+
     await Area.deleteMany({});
     await Area.insertMany(areas);
+
 }
