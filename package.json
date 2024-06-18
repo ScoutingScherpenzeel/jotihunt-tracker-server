@@ -8,6 +8,7 @@
     "express-winston": "^4.2.0",
     "mongoose": "^8.4.1",
     "node-cron": "^3.0.3",
+    "puppeteer": "^22.11.2",
     "winston": "^3.13.0"
   },
   "name": "jotihunt-tracker-server",
@@ -15,7 +16,7 @@
   "main": "src/index.ts",
   "devDependencies": {},
   "scripts": {
-    "dev": "bun --hot run src/index.ts"
+    "dev": "bun --watch run src/index.ts"
   },
   "keywords": [],
   "author": "",

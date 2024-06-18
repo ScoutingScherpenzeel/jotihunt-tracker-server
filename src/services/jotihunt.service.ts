@@ -1,29 +1,41 @@
 import axios from "axios";
 import { logger } from "..";
+import puppeteer, { Page } from "puppeteer";
 
-const apiUrl = process.env.JOTIHUNT_API_URL;
+const apiUrl = process.env.JOTIHUNT_API_URL as string;
+const websiteUrl = process.env.JOTIHUNT_WEB_URL as string;
+const websiteUsername = process.env.JOTIHUNT_WEB_USERNAME as string;
+const websitePassword = process.env.JOTIHUNT_WEB_PASSWORD as string;
 
 const apiClient = axios.create({
   baseURL: apiUrl,
 });
 
 export interface ApiTeam {
-    name: string;
-    accomodation: string;
-    street: string;
-    housenumber: number;
-    housenumber_addition: string;
-    postcode: string;
-    city: string;
-    lat: string;
-    long: string;
-    area: string;
+  name: string;
+  accomodation: string;
+  street: string;
+  housenumber: number;
+  housenumber_addition: string;
+  postcode: string;
+  city: string;
+  lat: string;
+  long: string;
+  area: string;
 }
 
 export interface ApiArea {
-    name: string;
-    status: string;
-    updated_at: string;
+  name: string;
+  status: string;
+  updated_at: string;
+}
+
+export interface WebHunt {
+  area: string;
+  huntCode: string;
+  status: string;
+  points: number;
+  huntTime: string;
 }
 
 /**
@@ -52,4 +64,57 @@ export async function getAreas(): Promise<ApiArea[]> {
     logger.error("Error fetching areas:", error);
     throw new Error("Could not fetch areas");
   }
+}
+
+/**
+ * Use Puppeteer to login to the Jotihunt website.
+ * @returns {Promise<Page>} - A promise that resolves to a Puppeteer page.
+ */
+export async function login(): Promise<Page> {
+  const browser = await puppeteer.launch();
+  const page = await browser.newPage();
+
+  logger.info("Logging in to Jotihunt website with e-mail: " + websiteUsername);
+  await page.goto(websiteUrl + "/login");
+  await page.type('input[name="email"]', websiteUsername);
+  await page.type('input[name="password"]', websitePassword);
+
+  await Promise.all([page.click("button.btn"), page.waitForNavigation()]);
+
+  if (page.url().endsWith("/login")) {
+    logger.error("Login failed, check your credentials.");
+    return Promise.reject("Login failed");
+  }
+
+  logger.info("Logged in to Jotihunt website.");
+
+  return page;
+}
+
+/**
+ * Scrape the last 15 hunts from the Jotihunt website.
+ * @param page Logged in Puppeteer page.
+ */
+export async function scrapeHunts(page: Page): Promise<WebHunt[]> {
+  logger.info("Scraping hunts from Jotihunt website...");
+
+  await page.goto(websiteUrl + "/hunts");
+
+  const hunts = await page.evaluate(() => {
+    const rows = Array.from(document.querySelectorAll("table tbody tr"));
+    return rows.map((row) => {
+      const columns = Array.from(row.querySelectorAll("td"));
+      return {
+        area: columns[0].textContent,
+        huntCode: columns[1].textContent,
+        status: columns[2].textContent,
+        points: parseInt(columns[3].textContent || "0"),
+        huntTime: columns[4].textContent,
+      } as WebHunt;
+    });
+  });
+
+  logger.info(`Found ${hunts.length} hunts from website.`);
+
+  return hunts;
 }

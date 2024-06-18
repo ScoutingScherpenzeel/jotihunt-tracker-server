@@ -1,5 +1,4 @@
 import mongoose from "mongoose";
-import { pointSchema } from "./point";
 
 const AreaSchema = new mongoose.Schema({
   name: {

@@ -4,7 +4,7 @@ import { getAreas } from "../services/jotihunt.service";
 
 export default async function retrieveJotihuntAreas() {
     
-    logger.info("(CRON) Retrieving Jotihunt areas from API...");
+    logger.info("Retrieving Jotihunt areas from API...");
 
     const apiAreas = await getAreas();
     
@@ -16,9 +16,9 @@ export default async function retrieveJotihuntAreas() {
         };
     });
 
-    logger.info(`(CRON) Found ${areas.length} areas`);
+    logger.info(`Found ${areas.length} areas`);
 
-    await Area.deleteMany({});
-    await Area.insertMany(areas);
+    await Area.deleteMany({}).catch((error) => { logger.error("Error deleting areas from database:", error) });
+    await Area.insertMany(areas).catch((error) => { logger.error("Error inserting areas into database:", error) });
 
 }

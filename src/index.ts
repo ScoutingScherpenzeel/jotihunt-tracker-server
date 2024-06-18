@@ -1,20 +1,23 @@
 import express from "express";
-import dotenv from "dotenv";
 import cron from "node-cron";
 import trackerRoute from "./routes/tracker.route";
 import markersRoute from "./routes/markers.route";
 import teamsRoute from "./routes/teams.route";
 import areasRoute from "./routes/areas.route";
+import huntsRoute from "./routes/hunts.route";
 import retrieveJotihuntTeams from "./crons/jotihunt-teams.cron";
 import retrieveJotihuntAreas from "./crons/jotihunt-areas.cron";
 import winston from "winston";
 import mongoose from "mongoose";
 import expressWinston from "express-winston";
 import cors from "cors";
+import scrapeJotihuntWebsite from "./crons/jotihunt-scraper.cron";
+
+const debug = process.env.DEBUG === "true";
 
 // Setup logging with Winston
 export const logger = winston.createLogger({
-  level: "info",
+  level: debug ? "debug" : "info",
   format: winston.format.combine(winston.format.timestamp(), winston.format.json()),
   transports: [
     new winston.transports.Console({
@@ -29,28 +32,31 @@ export const logger = winston.createLogger({
     new winston.transports.File({ filename: "combined.log" }),
   ],
 });
+if(debug) logger.warn("Debug mode enabled");
+
 logger.info("Starting Jotihunt tracker...");
 
 // Setup express and CORS
 logger.info("Setting up Express and loading config...");
-dotenv.config();
 const app = express();
 app.use(express.json());
 app.use(expressWinston.logger({ winstonInstance: logger }));
-app.use(cors())
+app.use(cors());
 
 // Setup routes
 logger.info("Setting up routes...");
 app.use("/tracker", trackerRoute);
 app.use("/markers", markersRoute);
-app.use("/teams", teamsRoute)
-app.use("/areas", areasRoute)
+app.use("/teams", teamsRoute);
+app.use("/areas", areasRoute);
+app.use("/hunts", huntsRoute)
 
 // Database connection
 const db = process.env.MONGO_URI || "";
 logger.info("Trying to connect to MongoDB...");
 await mongoose.connect(db).then(() => {
   logger.info("Connected to MongoDB!");
+  if(debug) mongoose.set("debug", true);
 });
 
 // Start the server
@@ -63,3 +69,4 @@ logger.info("Starting cron jobs...");
 
 cron.schedule("*/5 * * * *", retrieveJotihuntTeams);
 cron.schedule("*/10 * * * * *", retrieveJotihuntAreas);
+cron.schedule("*/10 * * * * *", scrapeJotihuntWebsite);
