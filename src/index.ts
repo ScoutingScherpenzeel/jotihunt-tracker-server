@@ -69,4 +69,4 @@ logger.info("Starting cron jobs...");
 
 cron.schedule("*/5 * * * *", retrieveJotihuntTeams);
 cron.schedule("*/10 * * * * *", retrieveJotihuntAreas);
-cron.schedule("*/10 * * * * *", scrapeJotihuntWebsite);
+cron.schedule("*/60 * * * * *", scrapeJotihuntWebsite);
