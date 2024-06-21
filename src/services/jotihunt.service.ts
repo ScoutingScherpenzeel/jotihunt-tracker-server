@@ -38,6 +38,19 @@ export interface WebHunt {
   huntTime: string;
 }
 
+export interface ApiArticle {
+  id: number;
+  title: string;
+  type: string;
+  publish_at: string;
+  message: {
+    content: string;
+    type: string;
+    max_points: number;
+    end_time: string;
+  }
+}
+
 /**
  * Function to get all teams from Jotihunt.
  * @returns {Promise<Array>} - A promise that resolves to an array of teams.
@@ -66,6 +79,20 @@ export async function getAreas(): Promise<ApiArea[]> {
   }
 }
 
+/**
+ * Function to get all articles from Jotihunt.
+ * Only returns the first 15 articles.
+ * @returns {Promise<Array>} - A promise that resolves to an array of articles.
+ */
+export async function getArticles(): Promise<ApiArticle[]> {
+  try {
+    const response = await apiClient.get("/articles");
+    return response.data.data as ApiArticle[];
+  } catch (error) {
+    logger.error("Error fetching articles:", error);
+    throw new Error("Could not fetch articles");
+  }
+}
 /**
  * Use Puppeteer to login to the Jotihunt website.
  * @returns {Promise<Page>} - A promise that resolves to a Puppeteer page.

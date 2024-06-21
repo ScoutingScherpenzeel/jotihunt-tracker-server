@@ -5,8 +5,10 @@ import markersRoute from "./routes/markers.route";
 import teamsRoute from "./routes/teams.route";
 import areasRoute from "./routes/areas.route";
 import huntsRoute from "./routes/hunts.route";
+import articlesRoute from "./routes/articles.route";
 import retrieveJotihuntTeams from "./crons/jotihunt-teams.cron";
 import retrieveJotihuntAreas from "./crons/jotihunt-areas.cron";
+import retrieveJotihuntArticles from "./crons/jotihunt-articles.cron";
 import winston from "winston";
 import mongoose from "mongoose";
 import expressWinston from "express-winston";
@@ -50,6 +52,7 @@ app.use("/markers", markersRoute);
 app.use("/teams", teamsRoute);
 app.use("/areas", areasRoute);
 app.use("/hunts", huntsRoute)
+app.use("/articles", articlesRoute);
 
 // Database connection
 const db = process.env.MONGO_URI || "";
@@ -69,4 +72,5 @@ logger.info("Starting cron jobs...");
 
 cron.schedule("*/5 * * * *", retrieveJotihuntTeams);
 cron.schedule("*/10 * * * * *", retrieveJotihuntAreas);
+cron.schedule("*/10 * * * * *", retrieveJotihuntArticles);
 cron.schedule("*/60 * * * * *", scrapeJotihuntWebsite);
