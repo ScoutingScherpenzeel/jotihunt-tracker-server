@@ -2,8 +2,12 @@ import mongoose from "mongoose";
 import { pointSchema } from "./point";
 
 const MarkerSchema = new mongoose.Schema({
-  name: {
+  area: {
     type: String,
+    required: true,
+  },
+  time: {
+    type: Date,
     required: true,
   },
   location: {

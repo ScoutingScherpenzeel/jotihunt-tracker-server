@@ -8,22 +8,40 @@ export async function getMarkers(req, res) {
 
 export async function createMarker(req, res) {
   try {
-    const { name, coordinates } = req.body;
+    const { area, location, time } = req.body;
 
     // Validate request body
-    if (!name || !coordinates || !Array.isArray(coordinates) || coordinates.length !== 2) {
+    if (!area || !time || !location || !location.coordinates || !Array.isArray(location.coordinates) || location.coordinates.length !== 2) {
       return res.status(400).json({
-        message: "Name and coordinates (array of [longitude, latitude]) are required",
+        message: "Area, time and coordinates (array of [longitude, latitude]) are required",
       });
     }
 
+    // Area must be any of the following: alpha, bravo, charlie, delta, echo, foxtrot
+    if (!["alpha", "bravo", "charlie", "delta", "echo", "foxtrot"].includes(area)) {
+      return res.status(400).json({
+        message: "Area must be any of the following: alpha, bravo, charlie, delta, echo, foxtrot",
+      });
+    }
+
+    // Time must be a valid date
+    const parsedTime = new Date(time);
+
+    if (isNaN(parsedTime.getTime())) {
+      return res.status(400).json({ message: "Time must be a valid date" });
+    }
+
+    parsedTime.setMinutes(0);
+    parsedTime.setSeconds(0);
+
     // Create a new marker
     const marker = new Marker({
-      name,
+      area,
+      time: parsedTime,
       location: {
         type: "Point",
-        coordinates,
-      },
+        coordinates: location.coordinates,
+      }
     });
 
     // Save the marker to the database
@@ -31,6 +49,7 @@ export async function createMarker(req, res) {
 
     return res.status(201).json(marker);
   } catch (error) {
+    logger.error("Error creating marker", error);
     return res.status(500).json({ message: "Error creating marker", error });
   }
 }
