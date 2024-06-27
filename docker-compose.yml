@@ -1,7 +1,7 @@
 version: "3.9"
 services:
   jotihunt-tracker-server:
-    image: jotihunt-tracker-server:latest
+    image: ghcr.io/scoutingscherpenzeel/jotihunt-tracker-server:latest
     restart: unless-stopped
     environment:
       - DEBUG=false
