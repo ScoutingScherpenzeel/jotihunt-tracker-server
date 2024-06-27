@@ -1,6 +1,6 @@
 import { logger } from "..";
 import { Marker } from "../models/marker.model";
-import { Request, Response } from 'express';
+import { Request, Response } from "express";
 
 export async function getMarkers(_req: Request, res: Response) {
   const markers = await Marker.find();
@@ -42,7 +42,7 @@ export async function createMarker(req: Request, res: Response) {
       location: {
         type: "Point",
         coordinates: location.coordinates,
-      }
+      },
     });
 
     // Save the marker to the database

@@ -7,21 +7,21 @@ const apiToken = process.env.TRACCARR_API_TOKEN;
 const apiClient = axios.create({
   baseURL: apiUrl,
   headers: {
-    Authorization: `Bearer ${apiToken}`
-  }
+    Authorization: `Bearer ${apiToken}`,
+  },
 });
 
 /**
  * API interface for a Traccar position.
  */
 export interface TraccarPosition {
-  id: number,
+  id: number;
   attributes: {
     batteryLevel: number;
     distance: number;
     totalDistance: number;
     motion: boolean;
-  }
+  };
   deviceId: number;
   protocol: string;
   serverTime: Date;
@@ -57,7 +57,7 @@ export interface TraccarDevice {
   category: string;
   attributes: {
     deviceImage: string;
-  }
+  };
 }
 
 /**
@@ -87,7 +87,7 @@ export async function getPositions(): Promise<Array<TraccarPosition>> {
       const device = devices.find((device: TraccarDevice) => device.id === position.deviceId);
       return {
         ...position,
-        deviceName: device ? device.name : "Unknown Device"
+        deviceName: device ? device.name : "Unknown Device",
       };
     });
   } catch (error) {

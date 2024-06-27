@@ -48,7 +48,7 @@ export interface ApiArticle {
     type: string;
     max_points: number;
     end_time: string;
-  }
+  };
 }
 
 /**

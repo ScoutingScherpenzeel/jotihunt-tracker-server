@@ -12,7 +12,7 @@ const AreaSchema = new mongoose.Schema({
   updatedAt: {
     type: Date,
     required: true,
-  }
+  },
 });
 
 export const Area = mongoose.model("Area", AreaSchema);

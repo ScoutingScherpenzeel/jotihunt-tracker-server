@@ -34,7 +34,7 @@ export const logger = winston.createLogger({
     new winston.transports.File({ filename: "combined.log" }),
   ],
 });
-if(debug) logger.warn("Debug mode enabled");
+if (debug) logger.warn("Debug mode enabled");
 
 logger.info("Starting Jotihunt tracker...");
 
@@ -51,7 +51,7 @@ app.use("/tracker", trackerRoute);
 app.use("/markers", markersRoute);
 app.use("/teams", teamsRoute);
 app.use("/areas", areasRoute);
-app.use("/hunts", huntsRoute)
+app.use("/hunts", huntsRoute);
 app.use("/articles", articlesRoute);
 
 // Database connection
@@ -59,7 +59,7 @@ const db = process.env.MONGO_URI || "";
 logger.info("Trying to connect to MongoDB...");
 await mongoose.connect(db).then(() => {
   logger.info("Connected to MongoDB!");
-  if(debug) mongoose.set("debug", true);
+  if (debug) mongoose.set("debug", true);
 });
 
 // Start the server
