@@ -6,7 +6,7 @@ export default async function retrieveJotihuntTeams() {
     logger.info("(CRON) Retrieving Jotihunt teams from API...");
     const apiTeams = await getTeams();
     
-    let teams = apiTeams.map((team) => {
+    const teams = apiTeams.map((team) => {
         return {
             name: team.name,
             accomodation: team.accomodation,

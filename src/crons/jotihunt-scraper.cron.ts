@@ -8,7 +8,7 @@ export default async function scrapeJotihuntWebsite() {
     const page = await login();
 
     const webHunts = await scrapeHunts(page);
-    let hunts = webHunts.map((webHunt) => {
+    const hunts = webHunts.map((webHunt) => {
         return {
             area: webHunt.area,
             status: webHunt.status,

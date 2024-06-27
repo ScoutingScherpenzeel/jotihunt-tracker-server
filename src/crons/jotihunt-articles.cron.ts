@@ -8,7 +8,7 @@ export default async function retrieveJotihuntArticles() {
 
     const apiArticles = await getArticles();
     
-    let articles = apiArticles.map((article) => {
+    const articles = apiArticles.map((article) => {
         return {
             id: article.id,
             title: article.title,

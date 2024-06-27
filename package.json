@@ -16,13 +16,21 @@
   "name": "jotihunt-tracker-server",
   "version": "1.0.0-beta.1",
   "main": "src/index.ts",
-  "devDependencies": {},
+  "devDependencies": {
+    "@eslint/js": "^9.5.0",
+    "@types/bun": "latest",
+    "eslint": "9.x",
+    "globals": "^15.6.0",
+    "typescript-eslint": "^7.14.1"
+  },
   "scripts": {
-    "build": "bun build src/index.ts --target bun",
     "dev": "bun --watch run src/index.ts"
   },
   "keywords": [],
   "author": "Scouting Scherpenzeel e.o.",
   "license": "ISC",
-  "description": ""
+  "description": "",
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  }
 }

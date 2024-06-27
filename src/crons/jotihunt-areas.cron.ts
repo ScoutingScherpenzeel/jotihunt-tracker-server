@@ -8,7 +8,7 @@ export default async function retrieveJotihuntAreas() {
 
     const apiAreas = await getAreas();
     
-    let areas = apiAreas.map((team) => {
+    const areas = apiAreas.map((team) => {
         return {
             name: team.name,
             status: team.status,
