@@ -1,5 +1,4 @@
 import { logger } from "..";
-import { Area } from "../models/area.model";
 import { Article } from "../models/article.model";
 import { getArticles } from "../services/jotihunt.service";
 

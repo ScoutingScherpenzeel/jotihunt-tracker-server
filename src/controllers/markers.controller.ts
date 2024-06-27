@@ -1,12 +1,13 @@
 import { logger } from "..";
 import { Marker } from "../models/marker.model";
+import { Request, Response } from 'express';
 
-export async function getMarkers(req, res) {
+export async function getMarkers(_req: Request, res: Response) {
   const markers = await Marker.find();
   return res.status(200).json(markers);
 }
 
-export async function createMarker(req, res) {
+export async function createMarker(req: Request, res: Response) {
   try {
     const { area, location, time } = req.body;
 
@@ -54,7 +55,7 @@ export async function createMarker(req, res) {
   }
 }
 
-export async function deleteMarker(req, res) {
+export async function deleteMarker(req: Request, res: Response) {
   try {
     const { id } = req.params;
 
