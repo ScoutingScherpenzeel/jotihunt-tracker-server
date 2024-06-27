@@ -30,7 +30,7 @@
   },
   "keywords": [],
   "author": "Scouting Scherpenzeel e.o.",
-  "license": "ISC",
+  "license": "MIT",
   "description": "",
   "peerDependencies": {
     "typescript": "^5.0.0"
