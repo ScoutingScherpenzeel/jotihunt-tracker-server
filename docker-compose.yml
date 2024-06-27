@@ -12,6 +12,8 @@ services:
       - JOTIHUNT_WEB_URL=https://jotihunt.nl
       - JOTIHUNT_WEB_USERNAME=
       - JOTIHUNT_WEB_PASSWORD=
+      - HUNT_START_DATE=
+      - HUNT_END_DATE=
     ports:
       - "3000:3000"
   mongodb:
