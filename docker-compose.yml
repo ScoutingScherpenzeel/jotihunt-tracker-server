@@ -1,0 +1,27 @@
+version: "3.9"
+services:
+  jotihunt-tracker-server:
+    image: jotihunt-tracker-server:latest
+    restart: unless-stopped
+    environment:
+      - DEBUG=false
+      - MONGO_URI=mongodb://mongodb:27017/jotihunt
+      - TRACCARR_API_URL=
+      - TRACCARR_API_TOKEN=
+      - JOTIHUNT_API_URL=https://jotihunt.nl/api/2.0
+      - JOTIHUNT_WEB_URL=https://jotihunt.nl
+      - JOTIHUNT_WEB_USERNAME=
+      - JOTIHUNT_WEB_PASSWORD=
+    ports:
+      - "3000:3000"
+  mongodb:
+    image: mongo:latest
+    restart: unless-stopped
+    environment:
+      - MONGO_INITDB_DATABASE=jotihunt
+    volumes:
+      - mongodb:/data/db
+    ports:
+      - "27017:27017"
+volumes:
+  mongodb:

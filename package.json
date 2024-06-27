@@ -16,10 +16,11 @@
   "main": "src/index.ts",
   "devDependencies": {},
   "scripts": {
+    "build": "bun build src/index.ts --target bun",
     "dev": "bun --watch run src/index.ts"
   },
   "keywords": [],
-  "author": "",
+  "author": "Scouting Scherpenzeel e.o.",
   "license": "ISC",
   "description": ""
 }
