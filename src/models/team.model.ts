@@ -32,7 +32,7 @@ const TeamSchema = new mongoose.Schema({
   },
   area: {
     type: String,
-    required: true,
+    required: false,
   },
   location: {
     type: pointSchema,

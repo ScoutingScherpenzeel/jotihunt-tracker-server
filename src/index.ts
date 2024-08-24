@@ -14,6 +14,7 @@ import mongoose from "mongoose";
 import expressWinston from "express-winston";
 import cors from "cors";
 import scrapeJotihuntWebsite from "./crons/jotihunt-scraper.cron";
+import authRoute from "./routes/auth.route";
 
 const debug = process.env.DEBUG === "true";
 
@@ -27,7 +28,7 @@ export const logger = winston.createLogger({
         winston.format.timestamp(),
         winston.format.colorize(),
         winston.format.simple(),
-        winston.format.printf((info) => `${info.timestamp} - ${info.level}: ${info.message}`)
+        winston.format.printf((info) => `${info.timestamp} - ${info.level}: ${info.message}`),
       ),
     }),
     new winston.transports.File({ filename: "error.log", level: "error" }),
@@ -38,6 +39,12 @@ if (debug) logger.warn("Debug mode enabled");
 
 logger.info("Starting Jotihunt tracker...");
 
+// Check if JWT secret is set
+if (!process.env.JWT_SECRET) {
+  logger.error("JWT_SECRET is not set");
+  process.exit(1);
+}
+
 // Setup express and CORS
 logger.info("Setting up Express and loading config...");
 const app = express();
@@ -47,6 +54,7 @@ app.use(cors());
 
 // Setup routes
 logger.info("Setting up routes...");
+app.use("/auth", authRoute);
 app.use("/tracker", trackerRoute);
 app.use("/markers", markersRoute);
 app.use("/teams", teamsRoute);
@@ -74,3 +82,4 @@ cron.schedule("*/5 * * * *", retrieveJotihuntTeams);
 cron.schedule("*/10 * * * * *", retrieveJotihuntAreas);
 cron.schedule("*/10 * * * * *", retrieveJotihuntArticles);
 cron.schedule("*/60 * * * * *", scrapeJotihuntWebsite);
+await retrieveJotihuntTeams();
