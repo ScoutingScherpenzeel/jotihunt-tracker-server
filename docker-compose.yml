@@ -1,10 +1,11 @@
 version: "3.9"
 services:
-  jotihunt-tracker-server:
+  server:
     image: ghcr.io/scoutingscherpenzeel/jotihunt-tracker-server:latest
     restart: unless-stopped
     environment:
       - DEBUG=false
+      - JWT_SECRET=
       - MONGO_URI=mongodb://mongodb:27017/jotihunt
       - TRACCARR_API_URL=
       - TRACCARR_API_TOKEN=
@@ -16,6 +17,16 @@ services:
       - HUNT_END_DATE=
     ports:
       - "3000:3000"
+  client:
+    image: ghcr.io/scoutingscherpenzeel/jotihunt-tracker-client:latest
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    environment:
+      - API_BASE_URL=
+      - MAPBOX_TOKEN=
+      - HUNT_START_TIME=
+      - HUNT_END_TIME=
   mongodb:
     image: mongo:latest
     restart: unless-stopped
