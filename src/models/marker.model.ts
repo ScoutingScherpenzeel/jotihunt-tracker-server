@@ -1,6 +1,12 @@
 import mongoose from "mongoose";
 import { pointSchema } from "./point";
 
+export enum MarkerType {
+  Hint = "hint",
+  Hunt = "hunt",
+  Spot = "spot",
+}
+
 const MarkerSchema = new mongoose.Schema({
   area: {
     type: String,
@@ -12,6 +18,12 @@ const MarkerSchema = new mongoose.Schema({
   },
   location: {
     type: pointSchema,
+    required: true,
+  },
+  type: {
+    type: String,
+    enum: MarkerType,
+    default: MarkerType.Hint,
     required: true,
   },
 });

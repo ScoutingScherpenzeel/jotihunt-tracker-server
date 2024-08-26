@@ -101,7 +101,7 @@ export async function login(): Promise<Page> {
   const browser = await puppeteer.launch();
   const page = await browser.newPage();
 
-  logger.info("Logging in to Jotihunt website with e-mail: " + websiteUsername);
+  logger.info("(SCRAPER) Logging in to Jotihunt website with e-mail: " + websiteUsername);
   await page.goto(websiteUrl + "/login");
   await page.type('input[name="email"]', websiteUsername);
   await page.type('input[name="password"]', websitePassword);
@@ -109,11 +109,11 @@ export async function login(): Promise<Page> {
   await Promise.all([page.click("button.btn"), page.waitForNavigation()]);
 
   if (page.url().endsWith("/login")) {
-    logger.error("Login failed, check your credentials.");
+    logger.error("(SCRAPER) Login failed, check your credentials.");
     return Promise.reject("Login failed");
   }
 
-  logger.info("Logged in to Jotihunt website.");
+  logger.info("(SCRAPER) Logged in to Jotihunt website.");
 
   return page;
 }
@@ -123,7 +123,7 @@ export async function login(): Promise<Page> {
  * @param page Logged in Puppeteer page.
  */
 export async function scrapeHunts(page: Page): Promise<WebHunt[]> {
-  logger.info("Scraping hunts from Jotihunt website...");
+  logger.info("(SCRAPER) Scraping hunts from Jotihunt website...");
 
   await page.goto(websiteUrl + "/hunts");
 
@@ -141,7 +141,7 @@ export async function scrapeHunts(page: Page): Promise<WebHunt[]> {
     });
   });
 
-  logger.info(`Found ${hunts.length} hunts from website.`);
+  logger.info(`(SCRAPER) Found ${hunts.length} hunts from website.`);
 
   return hunts;
 }

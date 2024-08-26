@@ -1,5 +1,5 @@
 import { logger } from "..";
-import { Marker } from "../models/marker.model";
+import { Marker, MarkerType } from "../models/marker.model";
 import { Request, Response } from "express";
 
 export async function getMarkers(_req: Request, res: Response) {
@@ -9,12 +9,12 @@ export async function getMarkers(_req: Request, res: Response) {
 
 export async function createMarker(req: Request, res: Response) {
   try {
-    const { area, location, time } = req.body;
+    const { area, location, time, type } = req.body;
 
     // Validate request body
-    if (!area || !time || !location || !location.coordinates || !Array.isArray(location.coordinates) || location.coordinates.length !== 2) {
+    if (!area || !time || !location || !location.coordinates || !type || !Array.isArray(location.coordinates) || location.coordinates.length !== 2) {
       return res.status(400).json({
-        message: "Area, time and coordinates (array of [longitude, latitude]) are required",
+        message: "Area, type, time and coordinates (array of [longitude, latitude]) are required",
       });
     }
 
@@ -22,6 +22,13 @@ export async function createMarker(req: Request, res: Response) {
     if (!["alpha", "bravo", "charlie", "delta", "echo", "foxtrot"].includes(area)) {
       return res.status(400).json({
         message: "Area must be any of the following: alpha, bravo, charlie, delta, echo, foxtrot",
+      });
+    }
+
+    // Type must be any of values in markertype enum
+    if (!Object.values(MarkerType).includes(type)) {
+      return res.status(400).json({
+        message: "Type must be any of the following: " + Object.values(MarkerType).join(", "),
       });
     }
 
@@ -43,6 +50,7 @@ export async function createMarker(req: Request, res: Response) {
         type: "Point",
         coordinates: location.coordinates,
       },
+      type,
     });
 
     // Save the marker to the database
