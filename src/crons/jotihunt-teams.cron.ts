@@ -26,9 +26,9 @@ export default async function retrieveJotihuntTeams() {
   logger.info(`(CRON) Found ${teams.length} teams`);
 
   await Team.deleteMany({}).catch((error) => {
-    logger.error("Error deleting teams from database:", error);
+    logger.error("(CRON) Error deleting teams from database:", error);
   });
   await Team.insertMany(teams).catch((error) => {
-    logger.error("Error inserting teams into database:", error);
+    logger.error("(CRON) Error inserting teams into database:", error);
   });
 }

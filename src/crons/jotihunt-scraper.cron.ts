@@ -3,7 +3,7 @@ import { Hunt } from "../models/hunt.model";
 import { login, scrapeHunts } from "../services/jotihunt.service";
 
 export default async function scrapeJotihuntWebsite() {
-  logger.info("Scraping required data from Jotihunt website...");
+  logger.info("(CRON) Scraping required data from Jotihunt website...");
 
   const page = await login();
 
@@ -20,10 +20,10 @@ export default async function scrapeJotihuntWebsite() {
   });
 
   await Hunt.deleteMany({}).catch((error) => {
-    logger.error("Error deleting hunts from database:", error);
+    logger.error("(CRON) Error deleting hunts from database:", error);
   });
   await Hunt.insertMany(hunts).catch((error) => {
-    logger.error("Error inserting hunts into database:", error);
+    logger.error("(CRON) Error inserting hunts into database:", error);
   });
 
   page.close();
