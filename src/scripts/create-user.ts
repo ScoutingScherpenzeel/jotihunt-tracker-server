@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 import { parseArgs } from "util";
 import { User } from "../models/user.model";
 
-async function createUser(email: string, password: string, name: string) {
+async function createUser(email: string, password: string, name: string, admin: boolean = false) {
   try {
     const connection = await mongoose.connect(process.env.MONGO_URI!);
 
@@ -39,6 +39,10 @@ const { values } = parseArgs({
     name: {
       type: "string",
     },
+    admin: {
+      type: "boolean",
+      default: false,
+    },
   },
   strict: true,
   allowPositionals: true,
@@ -49,4 +53,4 @@ if (!values.email || !values.password || !values.name) {
   process.exit(1);
 }
 
-await createUser(values.email, values.password, values.name);
+await createUser(values.email, values.password, values.name, values.admin);
