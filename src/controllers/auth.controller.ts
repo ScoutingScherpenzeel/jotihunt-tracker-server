@@ -39,6 +39,11 @@ export async function login(req: Request, res: Response) {
 
     return res.status(200).json({
       accessToken,
+      user: {
+        id: user._id,
+        email: user.email,
+        name: user.name,
+      },
     });
   } catch (error) {
     logger.error("Error logging in", error);
