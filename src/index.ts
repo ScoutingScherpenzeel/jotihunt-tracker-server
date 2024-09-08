@@ -6,6 +6,7 @@ import teamsRoute from "./routes/teams.route";
 import areasRoute from "./routes/areas.route";
 import huntsRoute from "./routes/hunts.route";
 import articlesRoute from "./routes/articles.route";
+import adminRoute from "./routes/admin.route";
 import retrieveJotihuntTeams from "./crons/jotihunt-teams.cron";
 import retrieveJotihuntAreas from "./crons/jotihunt-areas.cron";
 import retrieveJotihuntArticles from "./crons/jotihunt-articles.cron";
@@ -61,6 +62,7 @@ app.use("/teams", teamsRoute);
 app.use("/areas", areasRoute);
 app.use("/hunts", huntsRoute);
 app.use("/articles", articlesRoute);
+app.use("/admin", adminRoute);
 
 // Database connection
 const db = process.env.MONGO_URI || "";

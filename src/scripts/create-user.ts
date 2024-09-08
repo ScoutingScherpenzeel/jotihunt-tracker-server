@@ -12,6 +12,7 @@ async function createUser(email: string, password: string, name: string, admin: 
       email,
       password: hashedPassword,
       name,
+      admin,
     });
 
     await user.save();

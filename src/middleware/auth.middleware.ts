@@ -34,6 +34,22 @@ export default async function verifyToken(req: Request, res: Response, next: Nex
   }
 }
 
+export async function isAdmin(req: Request, res: Response, next: NextFunction) {
+  if (!req.user) {
+    return res.status(401).json({
+      message: "Access denied",
+    });
+  }
+
+  if (!req.user.admin) {
+    return res.status(401).json({
+      message: "Access denied",
+    });
+  }
+
+  next();
+}
+
 interface JwtPayload {
   _id: string;
 }
