@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { User } from "../models/user.model";
 import { logger } from "..";
+import { body, matchedData, validationResult } from "express-validator";
 
 export async function getUsers(req: Request, res: Response) {
   const users = await User.find().select("-password");
@@ -8,20 +9,14 @@ export async function getUsers(req: Request, res: Response) {
 }
 
 export async function createUser(req: Request, res: Response) {
-  const { name, email, password, admin } = req.body;
-
-  if (!name || !email || !password) {
-    return res.status(400).json({
-      message: "Name, email and password are required",
-    });
-  }
+  const data = matchedData(req);
 
   try {
-    const hashedPassword = await Bun.password.hash(password);
+    const hashedPassword = await Bun.password.hash(data.password);
     const user = new User({
-      name,
-      email,
-      admin,
+      name: data.name,
+      email: data.email,
+      admin: data.admin,
       password: hashedPassword,
     });
 
@@ -37,22 +32,9 @@ export async function createUser(req: Request, res: Response) {
 export async function deleteUser(req: Request, res: Response) {
   const { id } = req.params;
 
-  if (!id) {
-    return res.status(400).json({
-      message: "ID is required",
-    });
-  }
-
   try {
     const user = await User.findById(id);
-
-    if (!user) {
-      return res.status(404).json({
-        message: "User not found",
-      });
-    }
-
-    await user.deleteOne();
+    await user!.deleteOne();
 
     return res.status(200).json({ message: "User deleted" });
   } catch (error) {
@@ -63,30 +45,16 @@ export async function deleteUser(req: Request, res: Response) {
 
 export async function updateUser(req: Request, res: Response) {
   const { id } = req.params;
-  const { name, email, admin, password } = req.body;
-
-  if (!id || !name || !email) {
-    return res.status(400).json({
-      message: "ID, name and email are required",
-    });
-  }
+  const data = matchedData(req);
 
   try {
-    const user = await User.findById(id);
+    const user = await User.findById(id)!;
+    if (!user) return;
 
-    if (!user) {
-      return res.status(404).json({
-        message: "User not found",
-      });
-    }
-
-    user.name = name;
-    user.email = email;
-    user.admin = admin;
-
-    if (password) {
-      user.password = await Bun.password.hash(password);
-    }
+    if (data.name) user.name = data.name;
+    if (data.email) user.email = data.email;
+    if (data.admin) user.admin = data.admin;
+    if (data.password) user.password = await Bun.password.hash(data.password);
 
     await user.save();
 

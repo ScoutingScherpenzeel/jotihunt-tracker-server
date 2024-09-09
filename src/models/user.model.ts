@@ -23,3 +23,10 @@ const UserSchema = new mongoose.Schema({
 
 export const User = mongoose.model("User", UserSchema);
 export type UserType = mongoose.InferSchemaType<typeof UserSchema>;
+
+// Exclude password from JSON response
+UserSchema.set("toJSON", {
+  transform: (doc, ret) => {
+    delete ret.password;
+  },
+});
