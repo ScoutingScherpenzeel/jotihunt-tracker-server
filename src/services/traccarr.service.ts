@@ -51,6 +51,7 @@ export interface TraccarDevice {
   lastUpdate: Date;
   positionId: number;
   groupId: number;
+  groupName?: string; // Filled by implementation
   phone: string;
   model: string;
   contact: string;
@@ -58,6 +59,11 @@ export interface TraccarDevice {
   attributes: {
     deviceImage: string;
   };
+}
+
+export interface TraccarGroup {
+  id: number;
+  name: string;
 }
 
 /**
@@ -93,5 +99,19 @@ export async function getPositions(): Promise<Array<TraccarPosition>> {
   } catch (error) {
     logger.error("Error fetching positions:", error);
     throw new Error("Could not fetch positions");
+  }
+}
+
+/**
+ * Function to get all groups from Traccar.
+ * @returns {Promise<Array>} - A promise that resolves to an array of groups.
+ */
+export async function getGroups(): Promise<Array<TraccarGroup>> {
+  try {
+    const response = await apiClient.get<TraccarGroup[]>("/api/groups");
+    return response.data;
+  } catch (error) {
+    logger.error("Error fetching groups:", error);
+    throw new Error("Could not fetch groups");
   }
 }
