@@ -18,6 +18,7 @@ async function getDevices(req: Request, res: Response) {
 async function getPositions(req: Request, res: Response) {
   try {
     const positions = await traccarrService.getPositions();
+    res.json(positions);
   } catch (error) {
     if (error instanceof Error) res.status(500).send(error.message);
   }

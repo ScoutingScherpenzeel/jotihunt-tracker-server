@@ -88,7 +88,6 @@ export async function getPositions(): Promise<Array<TraccarPosition>> {
   try {
     const devices = await getDevices();
     const response = await apiClient.get<TraccarPosition[]>("/api/positions");
-
     return response.data.map((position: TraccarPosition) => {
       const device = devices.find((device: TraccarDevice) => device.id === position.deviceId);
       return {
