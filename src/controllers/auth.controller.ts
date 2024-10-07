@@ -44,10 +44,30 @@ export async function login(req: Request, res: Response) {
         email: user.email,
         name: user.name,
         admin: user.admin,
+        requiresPasswordChange: user.requiresPasswordChange,
       },
     });
   } catch (error) {
     logger.error("Error logging in", error);
     return res.status(500).json({ message: "Login failed" });
   }
+}
+
+export async function updatePassword(req: Request, res: Response) {
+  const { oldPassword, newPassword } = req.body;
+  const user = req.user!;
+
+  // check if old password is correct
+  if (!(await Bun.password.verify(oldPassword, user.password))) {
+    return res.status(401).json({
+      message: "Old password is incorrect",
+    });
+  }
+
+  const hashed = await Bun.password.hash(newPassword);
+  user.password = hashed;
+  user.requiresPasswordChange = false;
+
+  await user.save();
+  return res.status(200).json({ message: "Password updated" });
 }

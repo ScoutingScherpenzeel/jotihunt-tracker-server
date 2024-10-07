@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose, { HydratedDocument, InferSchemaType } from "mongoose";
 
 const UserSchema = new mongoose.Schema({
   email: {
@@ -19,10 +19,15 @@ const UserSchema = new mongoose.Schema({
     default: false,
     required: true,
   },
+  requiresPasswordChange: {
+    type: Boolean,
+    default: true,
+    required: true,
+  },
 });
 
 export const User = mongoose.model("User", UserSchema);
-export type UserType = mongoose.InferSchemaType<typeof UserSchema>;
+export type UserType = HydratedDocument<InferSchemaType<typeof UserSchema>>;
 
 // Exclude password from JSON response
 UserSchema.set("toJSON", {
