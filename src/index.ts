@@ -7,7 +7,6 @@ import areasRoute from "./routes/areas.route";
 import huntsRoute from "./routes/hunts.route";
 import articlesRoute from "./routes/articles.route";
 import adminRoute from "./routes/admin.route";
-import retrieveJotihuntTeams from "./crons/jotihunt-teams.cron";
 import retrieveJotihuntAreas from "./crons/jotihunt-areas.cron";
 import retrieveJotihuntArticles from "./crons/jotihunt-articles.cron";
 import winston from "winston";
@@ -80,8 +79,6 @@ app.listen(port);
 // Schedule cron jobs
 logger.info("Starting cron jobs...");
 
-cron.schedule("*/5 * * * *", retrieveJotihuntTeams);
 cron.schedule("*/10 * * * * *", retrieveJotihuntAreas);
 cron.schedule("*/10 * * * * *", retrieveJotihuntArticles);
 cron.schedule("*/60 * * * * *", scrapeJotihuntWebsite);
-await retrieveJotihuntTeams();

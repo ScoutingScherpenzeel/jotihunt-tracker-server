@@ -12,6 +12,7 @@ const apiClient = axios.create({
 });
 
 export interface ApiTeam {
+  id: number;
   name: string;
   accomodation: string;
   street: string;

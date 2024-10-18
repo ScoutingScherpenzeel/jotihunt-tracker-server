@@ -30,7 +30,8 @@
   },
   "scripts": {
     "dev": "bun --watch run src/index.ts",
-    "create-user": "bun run src/scripts/create-user.ts"
+    "create-user": "bun run src/scripts/create-user.ts",
+    "load-teams": "bun run src/scripts/load-teams.ts"
   },
   "keywords": [],
   "author": "Scouting Scherpenzeel e.o.",

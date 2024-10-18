@@ -2,6 +2,10 @@ import mongoose from "mongoose";
 import { pointSchema } from "./point";
 
 const TeamSchema = new mongoose.Schema({
+  apiId: {
+    type: Number,
+    required: true,
+  },
   name: {
     type: String,
     required: true,
