@@ -1,6 +1,7 @@
 import axios from "axios";
 import { logger } from "..";
 import puppeteer, { Page } from "puppeteer";
+import { ApiArea, ApiArticle, WebHunt } from "../types/api";
 
 const apiUrl = process.env.JOTIHUNT_API_URL as string;
 const websiteUrl = process.env.JOTIHUNT_WEB_URL as string;
@@ -10,61 +11,6 @@ const websitePassword = process.env.JOTIHUNT_WEB_PASSWORD as string;
 const apiClient = axios.create({
   baseURL: apiUrl,
 });
-
-export interface ApiTeam {
-  id: number;
-  name: string;
-  accomodation: string;
-  street: string;
-  housenumber: number;
-  housenumber_addition: string;
-  postcode: string;
-  city: string;
-  lat: string;
-  long: string;
-  area: string;
-}
-
-export interface ApiArea {
-  name: string;
-  status: string;
-  updated_at: string;
-}
-
-export interface WebHunt {
-  area: string;
-  huntCode: string;
-  status: string;
-  points: number;
-  huntTime: string;
-}
-
-export interface ApiArticle {
-  id: number;
-  title: string;
-  type: string;
-  publish_at: string;
-  message: {
-    content: string;
-    type: string;
-    max_points: number;
-    end_time: string;
-  };
-}
-
-/**
- * Function to get all teams from Jotihunt.
- * @returns {Promise<Array>} - A promise that resolves to an array of teams.
- */
-export async function getTeams(): Promise<ApiTeam[]> {
-  try {
-    const response = await apiClient.get("/subscriptions");
-    return response.data.data as ApiTeam[];
-  } catch (error) {
-    logger.error("Error fetching teams:", error);
-    throw new Error("Could not fetch teams");
-  }
-}
 
 /**
  * Function to get all areas from Jotihunt.
