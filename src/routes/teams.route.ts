@@ -8,11 +8,9 @@ import { Team } from "../models/team.model";
 
 // Validations
 const updateAreaValidator = [
-  body("area").notEmpty().withMessage("Area must not be empty"),
-  body("area").isString().withMessage("Area must be a string"),
-  body("area").isMongoId().withMessage("Area must be a mongoId"),
   body("area").custom(async (value) => {
-    const area = await Area.findById(value);
+    if (!value) return;
+    const area = await Area.findOne({ name: value });
     if (!area) {
       throw new Error("Area must exist in the areas table");
     }
