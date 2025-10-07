@@ -18,7 +18,7 @@ export async function setTeamArea(req: Request, res: Response) {
 
 export async function reloadTeams(_req: Request, res: Response) {
     const { exec } = await import("child_process");
-    exec("npm run load-teams", (error, stdout, stderr) => {
+    exec("bun run load-teams", (error, stdout, stderr) => {
         if (error) {
             console.error(`exec error: ${error}`);
             return res.status(500).json({ message: "Error reloading teams", error });
