@@ -1,6 +1,6 @@
 import express from "express";
 import * as teamsController from "../controllers/teams.controller";
-import verifyToken from "../middleware/auth.middleware";
+import verifyToken, {isAdmin} from "../middleware/auth.middleware";
 import { body, param } from "express-validator";
 import { Area } from "../models/area.model";
 import { validate } from "../middleware/validate.middleware";
@@ -31,5 +31,6 @@ const router = express.Router();
 
 router.get("/", verifyToken, teamsController.getTeams);
 router.put("/:id/area", [verifyToken, validate(updateAreaValidator)], teamsController.setTeamArea);
+router.post("/reload", [verifyToken, isAdmin], teamsController.reloadTeams);
 
 export default router;
