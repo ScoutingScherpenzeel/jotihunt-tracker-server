@@ -18,10 +18,10 @@ export async function createMarker(req: Request, res: Response) {
       });
     }
 
-    // Area must be any of the following: alpha, bravo, charlie, delta, echo, foxtrot
-    if (!["alpha", "bravo", "charlie", "delta", "echo", "foxtrot"].includes(area)) {
+    // Area must be any of the following: alpha, bravo, charlie, delta, echo, foxtrot, golf, hotel
+    if (!["alpha", "bravo", "charlie", "delta", "echo", "foxtrot", "golf", "hotel"].includes(area)) {
       return res.status(400).json({
-        message: "Area must be any of the following: alpha, bravo, charlie, delta, echo, foxtrot",
+        message: "Area must be any of the following: alpha, bravo, charlie, delta, echo, foxtrot, golf, hotel",
       });
     }
 
