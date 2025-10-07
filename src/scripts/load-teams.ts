@@ -17,8 +17,6 @@ export async function getTeams(): Promise<ApiTeam[]> {
     try {
         const response = await apiClient.get("/subscriptions");
         const data = response.data.data;
-        // Skip the first object in the data list.
-        data.shift();
         return data as ApiTeam[];
     } catch (error) {
         console.error("Error fetching teams:", error);
