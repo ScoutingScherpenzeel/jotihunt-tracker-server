@@ -26,6 +26,6 @@ export default async function scrapeJotihuntWebsite() {
     logger.error("(CRON) Error inserting hunts into database:", error);
   });
 
-  page.close();
-  page.browser().close();
+  await page.close();
+  await page.browser().close();
 }
