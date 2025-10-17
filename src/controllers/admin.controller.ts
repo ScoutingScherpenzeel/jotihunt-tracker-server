@@ -54,7 +54,10 @@ export async function updateUser(req: Request, res: Response) {
     if (data.name) user.name = data.name;
     if (data.email) user.email = data.email;
     if (data.admin) user.admin = data.admin;
-    if (data.password) user.password = await Bun.password.hash(data.password);
+    if (data.password) {
+        user.password = await Bun.password.hash(data.password);
+        user.requiresPasswordChange = true;
+    }
 
     await user.save();
 
