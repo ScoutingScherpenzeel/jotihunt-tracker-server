@@ -1,5 +1,7 @@
 FROM oven/bun:1 as base
 
+ENV TZ=Europe/Amsterdam
+
 RUN apt-get update && apt-get install -y --no-install-recommends \
     chromium \
     && rm -rf /var/lib/apt/lists/*
