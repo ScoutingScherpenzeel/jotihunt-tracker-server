@@ -47,7 +47,12 @@ export async function getArticles(): Promise<ApiArticle[]> {
  * @returns {Promise<Page>} - A promise that resolves to a Puppeteer page.
  */
 export async function login(): Promise<Page> {
-    const browser = await puppeteer.launch();
+    const environment = process.env.NODE_ENV;
+    const isProduction = environment === "production";
+    const browser = await puppeteer.launch({
+        args: ["--no-sandbox", "--disable-setuid-sandbox"],
+        ...(isProduction && { executablePath: "/usr/bin/chromium" })
+    });
     const page = await browser.newPage();
     await page.setUserAgent(userAgent);
 
