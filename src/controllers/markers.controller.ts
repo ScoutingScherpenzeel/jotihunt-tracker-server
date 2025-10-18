@@ -39,8 +39,9 @@ export async function createMarker(req: Request, res: Response) {
       return res.status(400).json({ message: "Time must be a valid date" });
     }
 
-    parsedTime.setMinutes(0);
     parsedTime.setSeconds(0);
+
+    if(type != MarkerType.Spot) parsedTime.setMinutes(0);
 
     // Create a new marker
     const marker = new Marker({
