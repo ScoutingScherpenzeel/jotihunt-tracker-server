@@ -9,11 +9,11 @@ import articlesRoute from "./routes/articles.route";
 import adminRoute from "./routes/admin.route";
 import retrieveJotihuntAreas from "./crons/jotihunt-areas.cron";
 import retrieveJotihuntArticles from "./crons/jotihunt-articles.cron";
+import scrapeJotihuntWebsite from "./crons/jotihunt-scraper.cron";
 import winston from "winston";
 import mongoose from "mongoose";
 import expressWinston from "express-winston";
 import cors from "cors";
-import scrapeJotihuntWebsite from "./crons/jotihunt-scraper.cron";
 import authRoute from "./routes/auth.route";
 
 const debug = process.env.DEBUG === "true";
