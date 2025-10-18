@@ -41,7 +41,7 @@ export async function createMarker(req: Request, res: Response) {
 
     parsedTime.setSeconds(0);
 
-    if(type != MarkerType.Spot) parsedTime.setMinutes(0);
+    if(type == MarkerType.Hint) parsedTime.setMinutes(0);
 
     // Create a new marker
     const marker = new Marker({
