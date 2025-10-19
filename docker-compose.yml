@@ -1,20 +1,10 @@
 version: "3.9"
 services:
   server:
-    image: ghcr.io/scoutingscherpenzeel/jotihunt-tracker-server:latest
+    image: ghcr.io/scoutingscherpenzeel/jotihunt-tracker-server:latest # of ":main" voor de laatste ontwikkelversie.
     restart: unless-stopped
-    environment:
-      - DEBUG=false
-      - JWT_SECRET=
-      - MONGO_URI=mongodb://mongodb:27017/jotihunt
-      - TRACCARR_API_URL=
-      - TRACCARR_API_TOKEN=
-      - JOTIHUNT_API_URL=https://jotihunt.nl/api/2.0
-      - JOTIHUNT_WEB_URL=https://jotihunt.nl
-      - JOTIHUNT_WEB_USERNAME=
-      - JOTIHUNT_WEB_PASSWORD=
-      - HUNT_START_DATE=
-      - HUNT_END_DATE=
+    env_file:
+      - .env
     ports:
       - "3000:3000"
   client:
@@ -22,19 +12,28 @@ services:
     restart: unless-stopped
     ports:
       - "80:80"
-    environment:
-      - API_BASE_URL=
-      - MAPBOX_TOKEN=
-      - HUNT_START_TIME=
-      - HUNT_END_TIME=
+    env_file:
+      - .env
   mongodb:
     image: mongo:latest
     restart: unless-stopped
-    environment:
-      - MONGO_INITDB_DATABASE=jotihunt
+    env_file:
+      - .env
     volumes:
       - mongodb:/data/db
+  traccar:
+    image: traccar/traccar:ubuntu
+    restart: unless-stopped
     ports:
-      - "27017:27017"
+      - 5055:5055 # UDP poort voor GPS trackers
+      - 8082:8082 # Webinterface en API
+    volumes:
+      - traccar_logs:/opt/traccar/logs
+      - traccar_data:/opt/traccar/data
+      - traccar_conf:/opt/traccar/conf
+
 volumes:
   mongodb:
+  traccar_logs:
+  traccar_data:
+  traccar_conf:
