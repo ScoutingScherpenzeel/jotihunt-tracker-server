@@ -1,4 +1,4 @@
-<img width="978" height="618" alt="Jotihunt Tracker (1)" src="https://github.com/user-attachments/assets/bea945e9-306e-4c62-a486-073289eec721" />
+<img width="978" height="618" alt="Jotihunt Tracker (2)" src="https://github.com/user-attachments/assets/b8efdac6-1beb-40f7-b627-4ec540a4a0d2" />
 
 # 🦊 Jotihunt Tracker - Server
 Volg met gemak de locaties van vossenteams, hunts, hints en hunters tijdens de Jotihunt!
