@@ -1,3 +1,9 @@
+![GitHub License](https://img.shields.io/github/license/ScoutingScherpenzeel/jotihunt-tracker-server) 
+![GitHub branch status](https://img.shields.io/github/checks-status/ScoutingScherpenzeel/jotihunt-tracker-server/main)
+![GitHub Release](https://img.shields.io/github/v/release/ScoutingScherpenzeel/jotihunt-tracker-server)
+
+---
+
 <img width="978" height="618" alt="Jotihunt Tracker (2)" src="https://github.com/user-attachments/assets/b8efdac6-1beb-40f7-b627-4ec540a4a0d2" />
 
 # 🦊 Jotihunt Tracker - Server
