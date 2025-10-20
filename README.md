@@ -217,4 +217,5 @@ In het dashboard dien je als beheerder vervolgens het Apparaat-ID te registreren
 ## 📜 Licentie
 Dit project is open-source en beschikbaar onder de MIT-licentie.
 
-💛 Gemaakt door [Scouting Scherpenzeel](https://scoutingscherpenzeel.nl/).
+💛 Gemaakt door [Scouting Scherpenzeel](https://scoutingscherpenzeel.nl/).\
+📧 E-mailadres: [info@scoutingscherpenzeel.nl](mailto:info@scoutingscherpenzeel.nl)
