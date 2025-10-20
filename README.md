@@ -10,27 +10,26 @@
 Volg met gemak de locaties van vossenteams, hunts, hints en hunters tijdens de Jotihunt!
 Met deze server-app heb je een kant-en-klare backend om de voortgang live te volgen en direct op de hoogte te blijven van alle ontwikkelingen.
 
+> [!NOTE]
+> Werkt het beste in combinatie met de [Jotihunt Tracker Client](https://github.com/ScoutingScherpenzeel/jotihunt-tracker-client).
+
 ## Features:
 - Real-time locaties van hunters.
-- Deelnemende groepen zichtbaar op kaart incl. deelgebieden.
-- Registreren en tonen van hints op de kaart.
+- Registreren van hints.
 - Aanmaken van spots en hunt locaties.
-- Automatische lijnen tussen locaties binnen deelgebieden.
-- Snel navigeren naar een scoutinggroep.
-- Status updates van vossenteams (rood, oranje, groen)
-- Automatische timer per deelgebied na hunten van een vos.
-- Tegenhunt gebied visualiseren inclusief windrichting.
-- 500m cirkels om andere groepen tonen voor tegenhunt sticker plak gebied.
-- Countdown en geluidsmelding voor nieuwe hints.
-- Zoeken op en navigeren naar coördinaten in zowel RD-grid als WGS84 formaat.
-- Dark mode!
-- Verschillende kaart stijlen (straten, outdoor, satelliet, donker).
-- Liniaal voor het meten van afstanden.
-- Aanmaken en wijzigen van andere gebruikers.
+- Status updates van vossenteams (rood, oranje, groen).
+- Ophalen en opslaan van teams vanuit Jotihunt API.
+- Ophalen en opslaan van gepubliceerde hints en opdrachten vanuit Jotihunt API.
+- Integratie met Traccar GPS tracking server.
+- Eenvoudige authenticatie.
+- Gebruikersbeheer met verschillende rollen (admin, gebruiker).
 
 ## 🚀 Gebruik
 Je bent volledig vrij om deze tracker te gebruiken (het is ten slotte open-source). We zouden het echter enorm waarderen als je ons als bron vermeldt wanneer je dat doet.
 Laat het ons vooral weten als je de tracker inzet tijdens jullie Jotihunt, we vinden het superleuk om te horen hoe hij in het veld wordt gebruikt! 😄
+
+> [!TIP]
+> Bekijk ook de [Jotihunt Discord Notifier](https://github.com/ScoutingScherpenzeel/jotihunt-discord-notifier) en [Jotihunt Telegram Forwarder](https://github.com/ScoutingScherpenzeel/jotihunt-telegram-forwarder) voor het automatisch ophalen en sturen van hints en opdrachten én het doorsturen van berichten uit Telegram in een Discord-server.
 
 ## 🛠️ Installatie
 Deze backend werkt het beste in combinatie met de [Jotihunt Tracker Client](https://github.com/ScoutingScherpenzeel/jotihunt-tracker-client. De client niet gebruiken kan, maar wordt niet aanbevolen en is geen rekening mee gehouden in de code.
