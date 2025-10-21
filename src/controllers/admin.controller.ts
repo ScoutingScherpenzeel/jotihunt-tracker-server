@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { User } from "../models/user.model";
 import { logger } from "..";
-import { body, matchedData, validationResult } from "express-validator";
+import { matchedData } from "express-validator";
 
 export async function getUsers(req: Request, res: Response) {
   const users = await User.find().select("-password");
@@ -15,7 +15,7 @@ export async function createUser(req: Request, res: Response) {
     const hashedPassword = await Bun.password.hash(data.password);
     const user = new User({
       name: data.name,
-      email: data.email,
+      email: data.email.toLowerCase(),
       admin: data.admin,
       password: hashedPassword,
     });
@@ -52,11 +52,11 @@ export async function updateUser(req: Request, res: Response) {
     if (!user) return;
 
     if (data.name) user.name = data.name;
-    if (data.email) user.email = data.email;
+    if (data.email) user.email = data.email.toLowerCase();
     if (data.admin) user.admin = data.admin;
     if (data.password) {
-        user.password = await Bun.password.hash(data.password);
-        user.requiresPasswordChange = true;
+      user.password = await Bun.password.hash(data.password);
+      user.requiresPasswordChange = true;
     }
 
     await user.save();
