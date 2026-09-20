@@ -53,24 +53,30 @@ export async function login(): Promise<Page> {
         args: ["--no-sandbox", "--disable-setuid-sandbox"],
         ...(isProduction && { executablePath: "/usr/bin/chromium" })
     });
-    const page = await browser.newPage();
-    await page.setUserAgent(userAgent);
+    try {
+        const page = await browser.newPage();
+        await page.setUserAgent(userAgent);
 
-    logger.info("(SCRAPER) Logging in to Jotihunt website with e-mail: " + websiteUsername);
-    await page.goto(websiteUrl + "/login");
-    await page.type('input[name="email"]', websiteUsername);
-    await page.type('input[name="password"]', websitePassword);
+        logger.info("(SCRAPER) Logging in to Jotihunt website with e-mail: " + websiteUsername);
+        await page.goto(websiteUrl + "/login", { waitUntil: "networkidle2" });
+        await page.type('input[name="email"]', websiteUsername);
+        await page.type('input[name="password"]', websitePassword);
 
-    await Promise.all([page.click("button.btn"), page.waitForNavigation()]);
+        await Promise.all([page.click("button.btn"), page.waitForNavigation({ waitUntil: "networkidle2" })]);
 
-    if (page.url().endsWith("/login")) {
-        logger.error("(SCRAPER) Login failed, check your credentials.");
-        return Promise.reject("Login failed");
+        if (page.url().endsWith("/login")) {
+            logger.error("(SCRAPER) Login failed, check your credentials.");
+            await browser.close().catch(() => undefined);
+            return Promise.reject(new Error("Login failed"));
+        }
+
+        logger.info("(SCRAPER) Logged in to Jotihunt website.");
+
+        return page;
+    } catch (error) {
+        await browser.close().catch(() => undefined);
+        throw error;
     }
-
-    logger.info("(SCRAPER) Logged in to Jotihunt website.");
-
-    return page;
 }
 
 /**
