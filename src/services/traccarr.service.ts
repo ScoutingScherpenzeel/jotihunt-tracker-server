@@ -48,7 +48,7 @@ export interface TraccarDevice {
   uniqueId: string;
   status: string;
   disabled: boolean;
-  lastUpdate: Date;
+  lastUpdate?: Date;
   positionId: number;
   groupId: number;
   groupName?: string; // Filled by implementation
