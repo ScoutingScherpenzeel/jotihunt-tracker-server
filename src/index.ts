@@ -20,20 +20,29 @@ const debug = process.env.DEBUG === "true";
 
 // Setup logging with Winston
 export const logger = winston.createLogger({
-  level: debug ? "debug" : "info",
-  format: winston.format.combine(winston.format.timestamp(), winston.format.json()),
-  transports: [
-    new winston.transports.Console({
-      format: winston.format.combine(
-        winston.format.timestamp(),
-        winston.format.colorize(),
-        winston.format.simple(),
-        winston.format.printf((info) => `${info.timestamp} - ${info.level}: ${info.message}`),
-      ),
-    }),
-    new winston.transports.File({ filename: "error.log", level: "error" }),
-    new winston.transports.File({ filename: "combined.log" }),
-  ],
+    level: debug ? "debug" : "info",
+    format: winston.format.combine(winston.format.timestamp(), winston.format.json()),
+    transports: [
+        new winston.transports.Console({
+            format: winston.format.combine(
+                winston.format.timestamp(),
+                winston.format.colorize(),
+                winston.format.simple(),
+                winston.format.printf((info) => `${info.timestamp} - ${info.level}: ${info.message}`),
+            ),
+        }),
+        new winston.transports.File({
+            filename: "error.log",
+            level: "error",
+            maxsize: 10 * 1024 * 1024, // 10 MB
+            maxFiles: 3
+        }),
+        new winston.transports.File({
+            filename: "combined.log",
+            maxsize: 10 * 1024 * 1024, // 10 MB
+            maxFiles: 3
+        }),
+    ],
 });
 if (debug) logger.warn("Debug mode enabled");
 
@@ -41,15 +50,15 @@ logger.info("Starting Jotihunt tracker...");
 
 // Check if JWT secret is set
 if (!process.env.JWT_SECRET) {
-  logger.error("JWT_SECRET is not set");
-  process.exit(1);
+    logger.error("JWT_SECRET is not set");
+    process.exit(1);
 }
 
 // Setup express and CORS
 logger.info("Setting up Express and loading config...");
 const app = express();
 app.use(express.json());
-app.use(expressWinston.logger({ winstonInstance: logger }));
+app.use(expressWinston.logger({winstonInstance: logger}));
 app.use(cors());
 
 // Setup routes
@@ -67,8 +76,8 @@ app.use("/admin", adminRoute);
 const db = process.env.MONGO_URI || "";
 logger.info("Trying to connect to MongoDB...");
 await mongoose.connect(db).then(() => {
-  logger.info("Connected to MongoDB!");
-  if (debug) mongoose.set("debug", true);
+    logger.info("Connected to MongoDB!");
+    if (debug) mongoose.set("debug", true);
 });
 
 // Start the server
